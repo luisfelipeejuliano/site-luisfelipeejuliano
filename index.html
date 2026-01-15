@@ -1,0 +1,236 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peça sua Música | Luís Felipe & Juliano</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, Helvetica, sans-serif; background: #0f0f0f; color: #fff; line-height: 1.5; }
+header { text-align: center; padding: 30px 15px; background: linear-gradient(135deg, #1db954, #128c7e); }
+header h1 { font-size: 6vw; margin-bottom: 10px; }
+header p { font-size: 3.5vw; }
+nav { position: sticky; top: 0; background: #1a1a1a; display: flex; justify-content: center; padding: 10px 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.5); flex-wrap: wrap; }
+nav a { color: #fff; text-decoration: none; margin: 5px 15px; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: all 0.2s ease; cursor: pointer; }
+nav a.active, nav a:hover { background: #1db954; color: #000; transform: translateY(-2px); }
+#top-hits { background: #1a1a1a; margin: 20px; padding: 15px; border-radius: 10px; }
+#top-hits h2 { color: #1db954; margin-bottom: 10px; }
+#top-hits ul { list-style: none; }
+#top-hits li { margin-bottom: 6px; font-size: 16px; }
+.section { padding: 20px; }
+.section h2 { border-left: 5px solid #1db954; padding-left: 10px; margin-bottom: 15px; font-size: 20px; }
+.music { background: #1a1a1a; margin-bottom: 12px; padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; position: relative; }
+.music:hover { background: #292929; transform: translateY(-2px); }
+.music span { font-size: 4vw; }
+.music .counter { font-size: 14px; color: #1db954; margin-right: 10px; }
+.music a { background: #1db954; color: #000; text-decoration: none; padding: 8px 14px; border-radius: 6px; font-size: 3.5vw; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.2s ease; }
+.music a:hover { background: #17a74a; transform: translateY(-1px); }
+.music a.pulse { animation: pulse 0.4s; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+.pix { text-align: center; background: #1a1a1a; margin: 20px; padding: 25px 15px; border-radius: 12px; }
+.pix h2 { margin-bottom: 10px; font-size: 22px; color: #1db954; }
+.pix p { margin-bottom: 15px; font-size: 16px; }
+.pix img { max-width: 200px; border-radius: 10px; }
+footer { text-align: center; font-size: 13px; padding: 15px; color: #aaa; }
+.modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+.modal-content { background: #1a1a1a; padding: 20px; border-radius: 10px; text-align: center; max-width: 90%; width: 350px; }
+.modal-content p { margin-bottom: 20px; font-size: 16px; }
+.modal-content button { padding: 8px 16px; margin: 0 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s ease; }
+.modal-content .confirm { background: #1db954; color: #000; }
+.modal-content .confirm:hover { background: #17a74a; }
+.modal-content .cancel { background: #aaa; color: #000; }
+.modal-content .cancel:hover { background: #888; }
+/* NOTIFICAÇÃO */
+.notification {
+    position: fixed; top: 20px; right: 20px; background: #1db954; color: #000;
+    padding: 12px 20px; border-radius: 8px; font-weight: bold;
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.notification.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+@media screen and (min-width: 768px) { .music span { font-size: 16px; } .music a { font-size: 14px; padding: 8px 12px; } header h1 { font-size: 28px; } header p { font-size: 16px; } }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🎶 Peça sua Música</h1>
+    <p><strong>Luís Felipe & Juliano</strong><br>Escolha a música e envie seu pedido<br>💰 Gorjeta é opcional ❤️</p>
+</header>
+
+<nav>
+    <a class="filter-btn active" data-category="all">Todos</a>
+    <a class="filter-btn" data-category="animadas">🔥 Animadas</a>
+    <a class="filter-btn" data-category="sofrencia">💔 Sofrência</a>
+    <a class="filter-btn" data-category="modao">❤️ Modão</a>
+    <a href="#gorjeta">💰 Gorjeta</a>
+</nav>
+
+<div id="top-hits">
+    <h2>🏆 Top Hits</h2>
+    <ul id="ranking-list"><li>Nenhum pedido ainda</li></ul>
+</div>
+
+<main>
+    <!-- Animadas -->
+    <div class="section" id="animadas">
+        <h2>🔥 Animadas</h2>
+        <div class="music" data-category="animadas" data-name="Vida de Cachorrada – Gusttavo Lima">
+            <span>Vida de Cachorrada – Gusttavo Lima</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Vida%20de%20Cachorrada%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+        <div class="music" data-category="animadas" data-name="Barulho do Foguete – Zé Neto & Cristiano">
+            <span>Barulho do Foguete – Zé Neto & Cristiano</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Barulho%20do%20Foguete%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+        <div class="music" data-category="animadas" data-name="Camarote – Wesley Safadão">
+            <span>Camarote – Wesley Safadão</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Camarote%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+    </div>
+
+    <!-- Sofrência -->
+    <div class="section" id="sofrencia">
+        <h2>💔 Sofrência</h2>
+        <div class="music" data-category="sofrencia" data-name="Sinal Disfarçado">
+            <span>Sinal Disfarçado</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Sinal%20Disfarçado%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+        <div class="music" data-category="sofrencia" data-name="Morro de Saudade – Zé Henrique & Gabriel">
+            <span>Morro de Saudade – Zé Henrique & Gabriel</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Morro%20de%20Saudade%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+    </div>
+
+    <!-- Modão -->
+    <div class="section" id="modao">
+        <h2>❤️ Modão</h2>
+        <div class="music" data-category="modao" data-name="Declaração de Amor – Gian & Giovani">
+            <span>Declaração de Amor – Gian & Giovani</span>
+            <span class="counter">0</span>
+            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Declaração%20de%20Amor%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
+        </div>
+    </div>
+
+    <div class="pix" id="gorjeta">
+        <h2>💰 Gorjeta (opcional)</h2>
+        <p>Se quiser apoiar nosso trabalho, envie uma gorjeta via Pix ❤️🎶</p>
+        <img src="qrcode-pix.png" alt="QR Code Pix">
+    </div>
+</main>
+
+<footer>© Luís Felipe & Juliano • Música ao Vivo</footer>
+
+<!-- MODAL -->
+<div class="modal" id="confirmModal">
+    <div class="modal-content">
+        <p id="modal-text">Você quer realmente pedir esta música?</p>
+        <button class="confirm" id="modal-confirm">Confirmar</button>
+        <button class="cancel" id="modal-cancel">Cancelar</button>
+    </div>
+</div>
+
+<!-- NOTIFICAÇÃO -->
+<div class="notification" id="notification"></div>
+
+<script>
+// FILTRO
+const buttons = document.querySelectorAll('.filter-btn');
+const musics = document.querySelectorAll('.music');
+const rankingList = document.getElementById('ranking-list');
+const notification = document.getElementById('notification');
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.getAttribute('data-category');
+        musics.forEach(m => m.style.display = (category==='all'||m.getAttribute('data-category')===category)?'flex':'none');
+    });
+});
+
+// MODAL E CONTADOR LOCALSTORAGE + NOTIFICAÇÃO
+const modal = document.getElementById('confirmModal');
+const modalText = document.getElementById('modal-text');
+const modalConfirm = document.getElementById('modal-confirm');
+const modalCancel = document.getElementById('modal-cancel');
+
+let currentUrl="", currentCounter=null, currentMusicName="";
+let previousRanking=[];
+
+function loadCounters(){
+    musics.forEach(m=>{
+        const name = m.getAttribute('data-name');
+        const counter = m.querySelector('.counter');
+        const saved = localStorage.getItem(name);
+        counter.textContent = saved?saved:0;
+    });
+    updateRanking(true);
+}
+
+function saveCounter(name,count){ localStorage.setItem(name,count); }
+
+function showNotification(text){
+    notification.textContent = text;
+    notification.classList.add('show');
+    setTimeout(()=>notification.classList.remove('show'),3000);
+}
+
+musics.forEach(m=>{
+    const btn = m.querySelector('a');
+    const counter = m.querySelector('.counter');
+    const name = m.getAttribute('data-name');
+    btn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        currentUrl=btn.getAttribute('data-url');
+        currentCounter=counter;
+        currentMusicName=name;
+        modalText.textContent=`Você quer realmente pedir "${name}"?`;
+        modal.style.display='flex';
+        btn.classList.add('pulse');
+        setTimeout(()=>btn.classList.remove('pulse'),400);
+    });
+});
+
+modalConfirm.addEventListener('click',()=>{
+    if(currentCounter){
+        let count=parseInt(currentCounter.textContent)||0;
+        count+=1;
+        currentCounter.textContent=count;
+        saveCounter(currentMusicName,count);
+        updateRanking();
+    }
+    window.open(currentUrl,'_blank');
+    modal.style.display='none';
+});
+
+modalCancel.addEventListener('click',()=>modal.style.display='none');
+window.addEventListener('click',e=>{if(e.target===modal) modal.style.display='none';});
+
+function updateRanking(init=false){
+    const rankingArray=[];
+    musics.forEach(m=>{
+        const name = m.getAttribute('data-name');
+        const count = parseInt(m.querySelector('.counter').textContent)||0;
+        if(count>0) rankingArray.push({name,count});
+    });
+    rankingArray.sort((a,b)=>b.count-a.count);
+    rankingList.innerHTML=rankingArray.length?rankingArray.map(m=>`<li>${m.name} - ${m.count} pedidos</li>`).join(''):'<li>Nenhum pedido ainda</li>';
+    if(!init){
+        // Notificação se a música subiu para Top 3
+        rankingArray.forEach((m,i)=>{
+            const prev = previousRanking.find(p=>p.name===m.name);
+            if(i<3 && (!prev || prev.index>i)) showNotification(`💥 "${m.name}" agora é Top ${i+1}!`);
+        });
+    }
+    previousRanking = rankingArray.map((m,i)=>({name:m.name,index:i}));
+}
+
+loadCounters();
+</script>
+</body>
+</html>
