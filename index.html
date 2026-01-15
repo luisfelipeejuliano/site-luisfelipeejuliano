@@ -5,118 +5,147 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peça sua Música | Luís Felipe & Juliano</title>
 <style>
-/* ... todo o CSS da versão 9.0 permanece igual ... */
-body { font-family: Arial, Helvetica, sans-serif; background: #0f0f0f; color: #fff; margin:0; padding:0;}
-header {text-align:center; padding:30px 15px; background: linear-gradient(135deg, #1db954, #128c7e);}
-header h1 {font-size:28px;}
-header p {font-size:16px;}
-nav {position:sticky; top:0; background:#1a1a1a; display:flex; justify-content:center; padding:10px 0; flex-wrap:wrap;}
-nav a {color:#fff; text-decoration:none; margin:5px 15px; font-weight:bold; padding:6px 12px; border-radius:5px;}
-nav a.active, nav a:hover {background:#1db954; color:#000;}
-.section {padding:20px;}
-.section h2 {border-left:5px solid #1db954; padding-left:10px; margin-bottom:15px;}
-.music {background:#1a1a1a; margin-bottom:12px; padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; position:relative;}
-.music span {font-size:15px;}
-.music .counter {font-size:14px; color:#1db954; margin-right:10px;}
-.music a {background:#1db954; color:#000; text-decoration:none; padding:8px 14px; border-radius:6px; font-weight:bold;}
-.music a:hover {background:#17a74a;}
-.pix {text-align:center; background:#1a1a1a; margin:20px; padding:25px 15px; border-radius:12px;}
-.pix h2 {margin-bottom:10px; color:#1db954;}
-footer {text-align:center; font-size:13px; padding:15px; color:#aaa;}
-.modal {display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;}
-.modal-content {background:#1a1a1a; padding:20px; border-radius:10px; text-align:center;}
-.notification {position:fixed; top:20px; right:20px; background:#1db954; color:#000; padding:12px 20px; border-radius:8px; font-weight:bold; opacity:0; pointer-events:none; transition:opacity 0.5s ease, transform 0.5s ease;}
-.notification.show {opacity:1; transform:translateY(0); pointer-events:auto;}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    text-align: center;
+    padding: 30px 15px;
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+}
+header h1 { margin: 0; font-size: 28px; }
+header p { margin-top: 10px; font-size: 16px; }
+
+/* Busca */
+#searchBar {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    margin: 20px auto;
+    display: block;
+}
+
+/* Estilo principal */
+main { padding: 20px; max-width: 1000px; margin: auto; }
+.section { margin-bottom: 40px; }
+.section h2 { border-left: 5px solid #ff9800; padding-left: 10px; margin-bottom: 15px; }
+.music { background: #1a1a1a; margin-bottom: 10px; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+.music span { font-size: 15px; }
+.music a { background: #ff9800; color: #000; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; }
+.music a:hover { background: #ffa726; }
+
+.pix-box { background: #1a1a1a; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 40px; }
+.pix-box img { max-width: 280px; width: 100%; border-radius: 12px; border: 4px solid #ff9800; margin-top: 15px; }
+
+footer { text-align: center; font-size: 13px; padding: 15px; color: #aaa; }
 </style>
 </head>
 <body>
 
 <header>
-    <h1>🎶 Peça sua Música</h1>
-    <p><strong>Luís Felipe & Juliano</strong><br>Escolha a música e envie seu pedido<br>💰 Gorjeta é opcional ❤️</p>
+<h1>🎶 Peça sua Música</h1>
+<p><strong>Luís Felipe & Juliano</strong><br>Escolha a música e peça no WhatsApp<br>💰 Pix opcional</p>
+<input type="text" id="searchBar" placeholder="🔍 Digite o nome da música ou artista...">
 </header>
 
-<nav>
-    <a class="filter-btn active" data-category="all">Todos</a>
-    <a class="filter-btn" data-category="animadas">🔥 Animadas</a>
-    <a class="filter-btn" data-category="sofrencia">💔 Sofrência</a>
-    <a class="filter-btn" data-category="modao">❤️ Modão</a>
-    <a href="#gorjeta">💰 Gorjeta</a>
-</nav>
+<main id="musicList">
 
-<div id="top-hits">
-    <h2>🏆 Top Hits</h2>
-    <ul id="ranking-list"><li>Nenhum pedido ainda</li></ul>
+<!-- 🔥 ANIMADAS -->
+<div class="section">
+<h2>🔥 Animadas</h2>
+<div class="music"><span>1️⃣ Vida de Cachorrada – Gusttavo Lima (Am)</span><a href="https://wa.me/5518981742934?text=Quero%20pedir%20Vida%20de%20Cachorrada">Pedir</a></div>
+<div class="music"><span>2️⃣ Sinal Disfarçado – Tom A</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣ Barulho do Foguete – Zé Neto & Cristiano</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>4️⃣ Camarote – Wesley Safadão</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>5️⃣ Farra, Pinga e Foguete – Bruno & Barretto (F#m)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>6️⃣ Tô Bebendo de Torneira – Conrado & Aleksandro</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>7️⃣ Loira Gelada – Conrado & Aleksandro</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>8️⃣ Como Esquecer o Beijo – Jads & Jadson (Em)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>9️⃣ Pinta o Cabelo de Preto – Pedro Sanches & Thiago</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>🔟 Nega – Bruno & Barretto</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣1️⃣ Pulando Muro – Zé Neto & Cristiano (G)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣2️⃣ Arruma Um Bão – Israel & Rodolffo</span><a href="https://wa.me/5518981742934">Pedir</a></div>
 </div>
 
-<main>
-    <!-- Animadas -->
-    <div class="section" id="animadas">
-        <h2>🔥 Animadas</h2>
-        <div class="music" data-category="animadas" data-name="Vida de Cachorrada – Gusttavo Lima">
-            <span>Vida de Cachorrada – Gusttavo Lima</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Vida%20de%20Cachorrada%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-        <div class="music" data-category="animadas" data-name="Barulho do Foguete – Zé Neto & Cristiano">
-            <span>Barulho do Foguete – Zé Neto & Cristiano</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Barulho%20do%20Foguete%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-        <div class="music" data-category="animadas" data-name="Camarote – Wesley Safadão">
-            <span>Camarote – Wesley Safadão</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Camarote%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-    </div>
+<!-- 💔 SOFRÊNCIA -->
+<div class="section">
+<h2>💔 Sofrência</h2>
+<div class="music"><span>1️⃣3️⃣ Morro de Saudade – Zé Henrique & Gabriel</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣4️⃣ To Valendo Nada – Henrique & Juliano</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣5️⃣ Fala Mal de Mim – Gusttavo Lima</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣6️⃣ Marra de Bandida</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣7️⃣ Vai Lá em Casa Hoje – George Henrique & Rodrigo (Bm)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣8️⃣ Vem Né Min Dodge Ram (Fm)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>1️⃣9️⃣ Só Vou Beber Mais Hoje (Fm)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣0️⃣ Ilusão de Ótica – Matheus & Kauan</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣1️⃣ Sai do Mato Veiaco (C#M)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣2️⃣ Ontem Saímos de Novo – Simone Mendes</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣3️⃣ Pense em Mim – Inspiração dos Meus Sonhos</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣4️⃣ Diz a Lenda Que Muitos Anos Atrás (Em)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣5️⃣ Meu Amor Me Espere – Zezé Di Camargo</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣6️⃣ Andei Seguindo Teu Olhar</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣7️⃣ Baqueado – Panda</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣8️⃣ Nova Namorada – Marcos & Belutti (G)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣9️⃣ Vazou Na Braquiara – Hugo & Guilherme (C)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣0️⃣ Morena de Goiânia – Hugo & Guilherme (C)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣1️⃣ Erro Gostoso</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣2️⃣ Desocupa</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣3️⃣ Última Saudade – Henrique & Juliano</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣4️⃣ De Bar em Bar</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣5️⃣ Tem Cabaré Essa Noite – Nathan & Nivaldo Marques</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣6️⃣ Pode Chorar – Tom A</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣7️⃣ Chora, Me Liga – Tom A6</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣8️⃣ Abelha – João Bosco & Vinícius</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣9️⃣ Haverá Sinais – Lauana Prado (EM)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>4️⃣0️⃣ Fui Fiel – Gusttavo Lima (C)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>4️⃣1️⃣ Se É Pra Beber Eu Bebo – Gusttavo Lima (Bm)</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>4️⃣2️⃣ Agente Se Entrega – Rio Negro & Solimões</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+</div>
 
-    <!-- Sofrência -->
-    <div class="section" id="sofrencia">
-        <h2>💔 Sofrência</h2>
-        <div class="music" data-category="sofrencia" data-name="Sinal Disfarçado">
-            <span>Sinal Disfarçado</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Sinal%20Disfarçado%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-        <div class="music" data-category="sofrencia" data-name="Morro de Saudade – Zé Henrique & Gabriel">
-            <span>Morro de Saudade – Zé Henrique & Gabriel</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Morro%20de%20Saudade%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-    </div>
+<!-- ❤️ MODÃO -->
+<div class="section">
+<h2>❤️ Modão</h2>
+<div class="music"><span>1️⃣ Declaração de Amor – Gian & Giovani</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>2️⃣ Ele Te Provoca</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>3️⃣ Fui Dando Porrada – Clayton & Romário</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>4️⃣ Fruto Especial</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+<div class="music"><span>5️⃣ Da Boca Pra Fora / Foi a Primeira Vez / Preciso Ser Amado / Amor Selvagem</span><a href="https://wa.me/5518981742934">Pedir</a></div>
+</div>
 
-    <!-- Modão -->
-    <div class="section" id="modao">
-        <h2>❤️ Modão</h2>
-        <div class="music" data-category="modao" data-name="Declaração de Amor – Gian & Giovani">
-            <span>Declaração de Amor – Gian & Giovani</span>
-            <span class="counter">0</span>
-            <a href="#" data-url="https://wa.me/5518981742934?text=Quero%20pedir%20Declaração%20de%20Amor%20-%20Luís%20Felipe%20e%20Juliano">Pedir</a>
-        </div>
-    </div>
+<!-- 💰 PIX -->
+<div class="section">
+<div class="pix-box">
+<h2>💰 Pix</h2>
+<p>Escaneie o QR Code 👇</p>
+<img src="qrcode-pix.jpg" alt="QR Code Pix">
+<p>Após o Pix, peça sua música 🎶</p>
+</div>
+</div>
 
-    <!-- Pix atualizado para JPEG -->
-    <div class="pix" id="gorjeta">
-        <h2>💰 Gorjeta (opcional)</h2>
-        <p>Se quiser apoiar nosso trabalho, envie uma gorjeta via Pix ❤️🎶</p>
-        <img src="pix-qr.jpeg" alt="QR Code Pix">
-    </div>
 </main>
 
-<footer>© Luís Felipe & Juliano • Música ao Vivo</footer>
-
-<!-- Modal e Notificação (permanece igual da versão 9.0) -->
-<div class="modal" id="confirmModal">
-    <div class="modal-content">
-        <p id="modal-text">Você quer realmente pedir esta música?</p>
-        <button class="confirm" id="modal-confirm">Confirmar</button>
-        <button class="cancel" id="modal-cancel">Cancelar</button>
-    </div>
-</div>
-<div class="notification" id="notification"></div>
+<footer>
+© Luís Felipe & Juliano • Música ao Vivo
+</footer>
 
 <script>
-// ...script da versão 9.0 permanece igual...
+// Função de busca
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', function() {
+    let filter = searchBar.value.toLowerCase();
+    let musicDivs = document.querySelectorAll('.music');
+    musicDivs.forEach(div => {
+        let text = div.querySelector('span').innerText.toLowerCase();
+        div.style.display = text.includes(filter) ? 'flex' : 'none';
+    });
+});
 </script>
 
 </body>
