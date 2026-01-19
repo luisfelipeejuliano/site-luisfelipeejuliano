@@ -4,140 +4,247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peça sua Música | Luís Felipe & Juliano</title>
-
 <style>
-body{font-family:Arial,Helvetica,sans-serif;background:#0f0f0f;color:#fff;margin:0}
-header{text-align:center;padding:30px 15px;background:linear-gradient(135deg,#ff9800,#ff5722)}
-header h1{margin:0;font-size:28px}
-header p{margin-top:10px;font-size:16px}
-#searchBar{width:80%;max-width:400px;padding:10px 15px;font-size:16px;border-radius:12px;border:none;margin:20px auto;display:block}
-main{padding:20px;max-width:1000px;margin:auto}
-.section{margin-bottom:40px}
-.section h2{border-left:5px solid #ff9800;padding-left:10px;margin-bottom:15px}
-.music{background:#1a1a1a;margin-bottom:10px;padding:12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
-.music span{font-size:15px}
-.music button{background:#ff9800;color:#000;border:none;padding:8px 12px;border-radius:6px;font-weight:bold;cursor:pointer}
-.music button:hover{background:#ffa726}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    text-align: center;
+    padding: 30px 15px;
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+}
+header h1 { margin: 0; font-size: 28px; }
+header p { margin-top: 10px; font-size: 16px; }
 
-/* PIX FLOAT */
-.pix-float{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#00c853,#64dd17);color:#000;padding:14px 18px;border-radius:50px;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.4);z-index:999}
+/* Busca */
+#searchBar {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    margin: 20px auto;
+    display: block;
+}
 
-/* MODAL */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:1000}
-.modal-box{background:#1a1a1a;padding:25px;border-radius:12px;text-align:center;max-width:320px}
-.modal-box h3{margin-top:0;color:#00e676}
-.modal-buttons{display:flex;gap:10px;margin-top:20px}
-.modal-buttons button{flex:1;padding:10px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}
-.btn-pix{background:#00c853;color:#000}
-.btn-skip{background:#ff9800;color:#000}
+/* Estilo principal */
+main { padding: 20px; max-width: 1000px; margin: auto; }
+.section { margin-bottom: 40px; }
+.section h2 { border-left: 5px solid #ff9800; padding-left: 10px; margin-bottom: 15px; }
+.music { background: #1a1a1a; margin-bottom: 10px; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+.music span { font-size: 15px; }
+.music button { background: #ff9800; color: #000; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+.music button:hover { background: #ffa726; }
 
-.pix-msg{position:fixed;bottom:90px;right:20px;background:#1a1a1a;color:#00e676;padding:10px 15px;border-radius:8px;display:none;z-index:999}
+.pix-box { background: #1a1a1a; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 40px; position: relative; }
+.pix-box img { max-width: 280px; width: 100%; border-radius: 12px; border: 4px solid #ff9800; margin-top: 15px; }
 
-footer{text-align:center;font-size:13px;padding:15px;color:#aaa}
+.pix-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff9800;
+    color: #000;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 9999;
+}
+.pix-btn:hover { background: #ffa726; }
+
+footer { text-align: center; font-size: 13px; padding: 15px; color: #aaa; }
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>🎶 Peça sua Música</h1>
-<p><strong>Luís Felipe & Juliano</strong><br>
-Escolha a música e peça no WhatsApp<br>
-💰 Gorjeta Pix (opcional)</p>
+<p><strong>Luís Felipe & Juliano</strong><br>Escolha a música e peça no WhatsApp<br>💰 Pix opcional</p>
 <input type="text" id="searchBar" placeholder="🔍 Digite o nome da música ou artista...">
 </header>
 
-<main>
-
-<div class="section">
-<h2>🎵 Repertório</h2>
-
-<!-- 1 a 42 -->
-<div class="music"><span>1️⃣ Vida de Cachorrada – Gusttavo Lima</span><button onclick="confirmarGorjeta('Vida de Cachorrada – Gusttavo Lima')">Pedir</button></div>
-<div class="music"><span>2️⃣ Sinal Disfarçado – Tom A</span><button onclick="confirmarGorjeta('Sinal Disfarçado – Tom A')">Pedir</button></div>
-<div class="music"><span>3️⃣ Barulho do Foguete – Zé Neto & Cristiano</span><button onclick="confirmarGorjeta('Barulho do Foguete – Zé Neto & Cristiano')">Pedir</button></div>
-<div class="music"><span>4️⃣ Camarote – Wesley Safadão</span><button onclick="confirmarGorjeta('Camarote – Wesley Safadão')">Pedir</button></div>
-<div class="music"><span>5️⃣ Farra, Pinga e Foguete – Bruno & Barretto</span><button onclick="confirmarGorjeta('Farra, Pinga e Foguete – Bruno & Barretto')">Pedir</button></div>
-<div class="music"><span>6️⃣ Tô Bebendo de Torneira – Conrado & Aleksandro</span><button onclick="confirmarGorjeta('Tô Bebendo de Torneira – Conrado & Aleksandro')">Pedir</button></div>
-<div class="music"><span>7️⃣ Loira Gelada – Conrado & Aleksandro</span><button onclick="confirmarGorjeta('Loira Gelada – Conrado & Aleksandro')">Pedir</button></div>
-<div class="music"><span>8️⃣ Como Esquecer o Beijo – Jads & Jadson</span><button onclick="confirmarGorjeta('Como Esquecer o Beijo – Jads & Jadson')">Pedir</button></div>
-<div class="music"><span>9️⃣ Pinta o Cabelo de Preto – Pedro Sanchez & Thiago</span><button onclick="confirmarGorjeta('Pinta o Cabelo de Preto – Pedro Sanchez & Thiago')">Pedir</button></div>
-<div class="music"><span>🔟 Nega – Bruno & Barretto</span><button onclick="confirmarGorjeta('Nega – Bruno & Barretto')">Pedir</button></div>
-
-<div class="music"><span>1️⃣1️⃣ Pulando Muro – Zé Neto & Cristiano</span><button onclick="confirmarGorjeta('Pulando Muro – Zé Neto & Cristiano')">Pedir</button></div>
-<div class="music"><span>1️⃣2️⃣ Arruma Um Bão – Israel & Rodolffo</span><button onclick="confirmarGorjeta('Arruma Um Bão – Israel & Rodolffo')">Pedir</button></div>
-<div class="music"><span>1️⃣3️⃣ Morro de Saudade – Zé Henrique & Gabriel</span><button onclick="confirmarGorjeta('Morro de Saudade – Zé Henrique & Gabriel')">Pedir</button></div>
-<div class="music"><span>1️⃣4️⃣ Tô Valendo Nada – Henrique & Juliano</span><button onclick="confirmarGorjeta('Tô Valendo Nada – Henrique & Juliano')">Pedir</button></div>
-<div class="music"><span>1️⃣5️⃣ Fala Mal de Mim – Gusttavo Lima</span><button onclick="confirmarGorjeta('Fala Mal de Mim – Gusttavo Lima')">Pedir</button></div>
-<div class="music"><span>1️⃣6️⃣ Marra de Bandida</span><button onclick="confirmarGorjeta('Marra de Bandida')">Pedir</button></div>
-<div class="music"><span>1️⃣7️⃣ Vai Lá em Casa Hoje – George Henrique & Rodrigo</span><button onclick="confirmarGorjeta('Vai Lá em Casa Hoje – George Henrique & Rodrigo')">Pedir</button></div>
-<div class="music"><span>1️⃣8️⃣ Vem Nê Min Dodge Ram</span><button onclick="confirmarGorjeta('Vem Nê Min Dodge Ram')">Pedir</button></div>
-<div class="music"><span>1️⃣9️⃣ Só Vou Beber Mais Hoje</span><button onclick="confirmarGorjeta('Só Vou Beber Mais Hoje')">Pedir</button></div>
-<div class="music"><span>2️⃣0️⃣ Ilusão de Ótica – Matheus & Kauan</span><button onclick="confirmarGorjeta('Ilusão de Ótica – Matheus & Kauan')">Pedir</button></div>
-
-<div class="music"><span>2️⃣1️⃣ Sai do Mato Veiaco</span><button onclick="confirmarGorjeta('Sai do Mato Veiaco')">Pedir</button></div>
-<div class="music"><span>2️⃣2️⃣ Ontem Saímos de Novo – Simone Mendes</span><button onclick="confirmarGorjeta('Ontem Saímos de Novo – Simone Mendes')">Pedir</button></div>
-<div class="music"><span>2️⃣3️⃣ Pense em Mim – Inspiração dos Meus Sonhos</span><button onclick="confirmarGorjeta('Pense em Mim – Inspiração dos Meus Sonhos')">Pedir</button></div>
-<div class="music"><span>2️⃣4️⃣ Diz a Lenda Que Muitos Anos Atrás</span><button onclick="confirmarGorjeta('Diz a Lenda Que Muitos Anos Atrás')">Pedir</button></div>
-<div class="music"><span>2️⃣5️⃣ Meu Amor Me Espere – Zezé Di Camargo</span><button onclick="confirmarGorjeta('Meu Amor Me Espere – Zezé Di Camargo')">Pedir</button></div>
-<div class="music"><span>2️⃣6️⃣ Andei Seguindo Teu Olhar</span><button onclick="confirmarGorjeta('Andei Seguindo Teu Olhar')">Pedir</button></div>
-<div class="music"><span>2️⃣7️⃣ Baqueado – Panda</span><button onclick="confirmarGorjeta('Baqueado – Panda')">Pedir</button></div>
-<div class="music"><span>2️⃣8️⃣ Nova Namorada – Marcos & Belutti</span><button onclick="confirmarGorjeta('Nova Namorada – Marcos & Belutti')">Pedir</button></div>
-<div class="music"><span>2️⃣9️⃣ Vazou na Braquiara – Hugo & Guilherme</span><button onclick="confirmarGorjeta('Vazou na Braquiara – Hugo & Guilherme')">Pedir</button></div>
-<div class="music"><span>3️⃣0️⃣ Morena de Goiânia – Hugo & Guilherme</span><button onclick="confirmarGorjeta('Morena de Goiânia – Hugo & Guilherme')">Pedir</button></div>
-
-<div class="music"><span>3️⃣1️⃣ Erro Gostoso</span><button onclick="confirmarGorjeta('Erro Gostoso')">Pedir</button></div>
-<div class="music"><span>3️⃣2️⃣ Desocupa</span><button onclick="confirmarGorjeta('Desocupa')">Pedir</button></div>
-<div class="music"><span>3️⃣3️⃣ Última Saudade – Henrique & Juliano</span><button onclick="confirmarGorjeta('Última Saudade – Henrique & Juliano')">Pedir</button></div>
-<div class="music"><span>3️⃣4️⃣ De Bar em Bar</span><button onclick="confirmarGorjeta('De Bar em Bar')">Pedir</button></div>
-<div class="music"><span>3️⃣5️⃣ Tem Cabaré Essa Noite – Nathan & Nivaldo Marques</span><button onclick="confirmarGorjeta('Tem Cabaré Essa Noite – Nathan & Nivaldo Marques')">Pedir</button></div>
-<div class="music"><span>3️⃣6️⃣ Pode Chorar – Tom A</span><button onclick="confirmarGorjeta('Pode Chorar – Tom A')">Pedir</button></div>
-<div class="music"><span>3️⃣7️⃣ Chora, Me Liga – Tom A</span><button onclick="confirmarGorjeta('Chora, Me Liga – Tom A')">Pedir</button></div>
-<div class="music"><span>3️⃣8️⃣ Abelha – João Bosco & Vinícius</span><button onclick="confirmarGorjeta('Abelha – João Bosco & Vinícius')">Pedir</button></div>
-<div class="music"><span>3️⃣9️⃣ Haverá Sinais – Lauana Prado</span><button onclick="confirmarGorjeta('Haverá Sinais – Lauana Prado')">Pedir</button></div>
-<div class="music"><span>4️⃣0️⃣ Fui Fiel – Gusttavo Lima</span><button onclick="confirmarGorjeta('Fui Fiel – Gusttavo Lima')">Pedir</button></div>
-<div class="music"><span>4️⃣1️⃣ Se É Pra Beber Eu Bebo – Gusttavo Lima</span><button onclick="confirmarGorjeta('Se É Pra Beber Eu Bebo – Gusttavo Lima')">Pedir</button></div>
-<div class="music"><span>4️⃣2️⃣ A Gente Se Entrega – Rio Negro & Solimões</span><button onclick="confirmarGorjeta('A Gente Se Entrega – Rio Negro & Solimões')">Pedir</button></div>
-
-</div>
+<main id="musicList" class="section">
+<!-- As músicas serão geradas pelo script -->
 </main>
 
-<footer>© Luís Felipe & Juliano • Música ao Vivo</footer>
-
-<div class="pix-float" onclick="copiarPix()">💰 Gorjeta Pix (opcional)</div>
-<div class="pix-msg" id="pixMsg">✅ Pix copiado!</div>
-
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h3>💰 Gorjeta Pix</h3>
-    <p>Deseja oferecer uma gorjeta antes de pedir a música?</p>
-    <div class="modal-buttons">
-      <button class="btn-pix" onclick="aceitarPix()">Sim 😊</button>
-      <button class="btn-skip" onclick="pularPix()">Não</button>
-    </div>
-  </div>
+<!-- Pix Box Flutuante -->
+<button class="pix-btn" onclick="mostrarPix()">Gorjeta Pix (Opcional)</button>
+<div class="pix-box" id="pixBox" style="display:none;">
+    <h2>💰 Pix</h2>
+    <p>Escaneie o QR Code 👇 ou copie a chave abaixo:</p>
+    <img src="qrcode-pix.jpg" alt="QR Code Pix">
+    <p><strong>Chave Pix:</strong> <span id="pixKey">00020126580014BR.GOV.BCB.PIX0136e73632b5-8ed1-4f73-98fc-0a175e7e62e35204000053039865802BR5925Luis Felipe de Souza Marq6009SAO PAULO62140510SNzbi4r4ta6304D677</span></p>
+    <button onclick="copiarPix()" style="margin-top:10px;">Copiar chave Pix</button>
 </div>
 
+<footer>
+© Luís Felipe & Juliano • Música ao Vivo
+</footer>
+
+<!-- Sons -->
+<audio id="somSim" src="som_sim.mp3" preload="auto"></audio>
+<audio id="somNao" src="som_nao.mp3" preload="auto"></audio>
+<audio id="somPix" src="caixa_registradora.mp3" preload="auto"></audio>
+
 <script>
-const numeroWhats="5518981742934";
-const pixKey="00020126580014BR.GOV.BCB.PIX0136e73632b5-8ed1-4f73-98fc-0a175e7e62e35204000053039865802BR5925Luis Felipe de Souza Marq6009SAO PAULO62140510SNzbi4r4ta6304D677";
-let musicaAtual="";
-
-function confirmarGorjeta(m){musicaAtual=m;document.getElementById("modal").style.display="flex"}
-function aceitarPix(){navigator.clipboard.writeText(pixKey);mostrarPix();abrirWhats()}
-function pularPix(){abrirWhats()}
-function abrirWhats(){
-document.getElementById("modal").style.display="none";
-const msg=`Quero pedir a música: ${musicaAtual}`;
-window.open(`https://wa.me/${numeroWhats}?text=${encodeURIComponent(msg)}`,"_blank")}
-function copiarPix(){navigator.clipboard.writeText(pixKey);mostrarPix()}
-function mostrarPix(){const m=document.getElementById("pixMsg");m.style.display="block";setTimeout(()=>m.style.display="none",2500)}
-
-document.getElementById("searchBar").addEventListener("keyup",function(){
-let f=this.value.toLowerCase();
-document.querySelectorAll(".music").forEach(m=>{
-m.style.display=m.innerText.toLowerCase().includes(f)?"flex":"none"})
+// Função de busca
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', function() {
+    let filter = searchBar.value.toLowerCase();
+    let musicDivs = document.querySelectorAll('.music');
+    musicDivs.forEach(div => {
+        let text = div.querySelector('span').innerText.toLowerCase();
+        div.style.display = text.includes(filter) ? 'flex' : 'none';
+    });
 });
+
+// Mostrar Pix
+function mostrarPix() {
+    const box = document.getElementById('pixBox');
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('somPix').play();
+    navigator.vibrate(200);
+}
+
+// Copiar chave Pix
+function copiarPix() {
+    const chave = document.getElementById('pixKey').innerText;
+    navigator.clipboard.writeText(chave);
+    alert('Chave Pix copiada!');
+}
+
+// Popup de gorjeta antes do WhatsApp
+function confirmarGorjeta(musica) {
+    const darPix = confirm("Deseja oferecer uma gorjeta antes de pedir a música?");
+    if (darPix) {
+        mostrarPix();
+        document.getElementById('somSim').play();
+        navigator.vibrate(200);
+    } else {
+        document.getElementById('somNao').play();
+        navigator.vibrate([100,50,100]);
+        abrirWhatsApp(musica);
+    }
+}
+
+// Abrir WhatsApp
+function abrirWhatsApp(musica) {
+    const texto = encodeURIComponent(`Quero pedir a música: ${musica}`);
+    window.open(`https://wa.me/5518981742934?text=${texto}`, '_blank');
+}
+
+// 🎵 Lista de músicas
+const categorias = [
+{
+    titulo: "🔥 Animadas",
+    musicas: [
+        { nome: "Vida de Cachorrada – Gusttavo Lima", tom: "Am", capo: "0" },
+        { nome: "Sinal Disfarçado – Gusttavo Lima", tom: "A", capo: "2" },
+        { nome: "Barulho do Foguete – Zé Neto & Cristiano", tom: "G", capo: "0" },
+        { nome: "Camarote – Wesley Safadão", tom: "C", capo: "0" },
+        { nome: "Farra, Pinga e Foguete – Bruno & Barretto", tom: "F#m", capo: "2" },
+        { nome: "Sai do Mato Veiaco", tom: "C#m", capo: "1" },
+        { nome: "Tem Cabaré Essa Noite", tom: "Bm", capo: "2" },
+        { nome: "Desocupa", tom: "Em", capo: "0" },
+        { nome: "Erro Gostoso", tom: "G", capo: "0" },
+        { nome: "Se É Pra Beber Eu Bebo – Gusttavo Lima", tom: "Bm", capo: "0" },
+        { nome: "A Gente Se Entrega – Rio Negro & Solimões", tom: "A", capo: "0" },
+        { nome: "Cerveja de Garrafa – Jorge & Mateus", tom: "D", capo: "0" },
+        { nome: "Que Sorte a Nossa – Matheus & Kauan", tom: "G", capo: "0" },
+        { nome: "Liberdade Provisória – Henrique & Juliano", tom: "Em", capo: "0" },
+        { nome: "Medo Bobo – Maiara & Maraisa", tom: "C", capo: "0" },
+        { nome: "Tubarões – Diego & Victor Hugo", tom: "Bm", capo: "2" },
+        { nome: "Opa Cadê Eu – Clayton & Romário", tom: "G", capo: "0" },
+        { nome: "Ai Que Vontade – Bruno & Marrone", tom: "Am", capo: "0" },
+        { nome: "Mentirosa (Live) – Hugo & Guilherme ft. Wesley Safadão", tom: "F#m", capo: "2" },
+        { nome: "Eu Te Procuro – Panda", tom: "Em", capo: "0" }
+    ]
+},
+{
+    titulo: "💔 Sofrência",
+    musicas: [
+        { nome: "Morro de Saudade – Zé Henrique & Gabriel", tom: "Dm", capo: "0" },
+        { nome: "Tô Valendo Nada – Henrique & Juliano", tom: "Bm", capo: "2" },
+        { nome: "Fala Mal de Mim – Gusttavo Lima", tom: "G", capo: "0" },
+        { nome: "Vai Lá em Casa Hoje – George Henrique & Rodrigo", tom: "Bm", capo: "0" },
+        { nome: "Só Vou Beber Mais Hoje", tom: "Fm", capo: "1" },
+        { nome: "Ilusão de Ótica – Matheus & Kauan", tom: "C", capo: "0" },
+        { nome: "Ontem Saímos de Novo – Simone Mendes", tom: "D", capo: "0" },
+        { nome: "Última Saudade – Henrique & Juliano", tom: "Em", capo: "0" },
+        { nome: "De Bar em Bar", tom: "G", capo: "0" },
+        { nome: "Haverá Sinais – Lauana Prado", tom: "Em", capo: "0" },
+        { nome: "Fui Fiel – Gusttavo Lima", tom: "C", capo: "0" },
+        { nome: "Troca de Calçada – Gustavo Mioto", tom: "G", capo: "0" },
+        { nome: "Logo Eu – Henrique & Juliano", tom: "Am", capo: "0" },
+        { nome: "Bloqueado – Gusttavo Lima", tom: "F#m", capo: "2" },
+        { nome: "Esqueça-me Se For Capaz – Bruno & Marrone", tom: "C", capo: "0" },
+        { nome: "Me Ama ou Me Larga – Simone Mendes", tom: "C", capo: "0" },
+        { nome: "Sua Boca Mente – Zé Felipe & Ana Castela", tom: "Em", capo: "0" },
+        { nome: "Se Eu Te Perdoar – Clayton & Romário & Zé Felipe", tom: "G", capo: "0" },
+        { nome: "Resumindo – Zé Neto & Cristiano", tom: "C", capo: "0" }
+    ]
+},
+{
+    titulo: "❤️ Modão / Raiz",
+    musicas: [
+        { nome: "Pense em Mim – Leandro & Leonardo", tom: "G", capo: "0" },
+        { nome: "Evidências – Chitãozinho & Xororó", tom: "G", capo: "0" },
+        { nome: "Boate Azul – Bruno & Marrone", tom: "Am", capo: "0" },
+        { nome: "Dormi na Praça – Bruno & Marrone", tom: "C", capo: "0" },
+        { nome: "Telefone Mudo – Trio Parada Dura", tom: "A", capo: "0" },
+        { nome: "Chalana – Almir Sater", tom: "Em", capo: "0" },
+        { nome: "Tocando em Frente – Almir Sater", tom: "G", capo: "0" },
+        { nome: "É o Amor – Zezé Di Camargo & Luciano", tom: "C", capo: "0" },
+        { nome: "Fio de Cabelo – Chitãozinho & Xororó", tom: "A", capo: "0" },
+        { nome: "Romaria – Renato Teixeira", tom: "G", capo: "0" },
+        { nome: "Tristeza do Jeca – Tonico & Tinoco", tom: "C", capo: "0" },
+        { nome: "Chico Mineiro – Tonico & Tinoco", tom: "G", capo: "0" }
+    ]
+},
+{
+    titulo: "🍺 Barzinho (Mais Tocadas 2026)",
+    musicas: [
+        { nome: "Garçom – Reginaldo Rossi", tom: "C", capo: "0" },
+        { nome: "Entre Tapas e Beijos – Leandro & Leonardo", tom: "G", capo: "0" },
+        { nome: "Página de Amigos – Chitãozinho & Xororó", tom: "G", capo: "0" },
+        { nome: "Fogão de Lenha – Chitãozinho & Xororó", tom: "D", capo: "0" },
+        { nome: "Ela é Demais – Rick & Renner", tom: "A", capo: "0" },
+        { nome: "Dois Corações e Uma História – Zezé Di Camargo & Luciano", tom: "C", capo: "0" },
+        { nome: "Sinônimos – Chitãozinho & Xororó", tom: "G", capo: "0" },
+        { nome: "Coração Sertanejo – Chitãozinho & Xororó", tom: "G", capo: "0" },
+        { nome: "Menino da Porteira – Sérgio Reis", tom: "D", capo: "0" },
+        { nome: "Panela Velha – Sérgio Reis", tom: "G", capo: "0" },
+        { nome: "Olho Marrom – Luan Santana", tom: "Em", capo: "0" },
+        { nome: "Tubarões – Diego & Victor Hugo", tom: "Bm", capo: "2" },
+        { nome: "Arruma Um Bão – Israel & Rodolffo", tom: "G", capo: "0" }
+    ]
+}];
+
+// Gerar HTML das músicas
+const container = document.getElementById("musicList");
+let html = "";
+categorias.forEach(cat => {
+    html += `<h2>${cat.titulo}</h2>`;
+    cat.musicas.forEach(m => {
+        html += `
+        <div class="music">
+            <span>
+                <strong>${m.nome}</strong><br>
+                <small>🎼 Tom: ${m.tom} | Capotraste: ${m.capo}</small>
+            </span>
+            <button onclick="confirmarGorjeta('${m.nome}')">Pedir</button>
+        </div>`;
+    });
+});
+container.innerHTML = html;
 </script>
 
 </body>
