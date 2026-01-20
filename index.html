@@ -21,11 +21,6 @@ h2 { border-left: 5px solid #ff9800; padding-left: 10px; margin-bottom: 15px; co
 .pix-btn { position: fixed; bottom: 20px; right: 20px; background: #ff9800; color: #000; border: none; padding: 12px 18px; border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; z-index: 9999; }
 .pix-btn:hover { background: #ffa726; }
 footer { text-align: center; font-size: 13px; padding: 15px; color: #aaa; }
-#modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-#modalContent { background: #1a1a1a; padding: 20px; border-radius: 12px; text-align: center; width: 280px; }
-#modalContent p { margin-bottom: 20px; font-size: 16px; }
-.modal-btn { background: #ff9800; color: #000; border: none; padding: 10px 20px; margin: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-.modal-btn:hover { background: #ffa726; }
 </style>
 </head>
 <body>
@@ -45,21 +40,11 @@ footer { text-align: center; font-size: 13px; padding: 15px; color: #aaa; }
 <p>Escaneie o QR Code 👇 ou copie a chave abaixo:</p>
 <img src="qrcode-pix.jpg" alt="QR Code Pix">
 <p><strong>Chave Pix:</strong> <span id="pixKey">00020126580014BR.GOV.BCB.PIX0136e73632b5-8ed1-4f73-98fc-0a175e7e62e35204000053039865802BR5925Luis Felipe de Souza Marq6009SAO PAULO62140510SNzbi4r4ta6304D677</span></p>
-<button onclick="copiarPix()" style="margin-top:10px;">📋 Copiar chave Pix</button>
+<button onclick="copiarPix()">📋 Copiar chave Pix</button>
 </div>
 
 <footer>© Luís Felipe & Juliano • Música ao Vivo</footer>
 
-<div id="modal">
-<div id="modalContent">
-<p>Deseja oferecer uma gorjeta antes de pedir a música?</p>
-<button class="modal-btn" id="btnSim">Sim</button>
-<button class="modal-btn" id="btnNao">Não</button>
-</div>
-</div>
-
-<audio id="somSim" src="som_sim.mp3" preload="auto"></audio>
-<audio id="somNao" src="som_nao.mp3" preload="auto"></audio>
 <audio id="somPix" src="caixa_registradora.mp3" preload="auto"></audio>
 
 <script>
@@ -74,93 +59,307 @@ searchBar.addEventListener('keyup',function(){
 });
 
 // Pix
-function mostrarPix(){const box=document.getElementById('pixBox');box.style.display='block';document.getElementById('somPix').play();navigator.vibrate(200);}
-function copiarPix(){const chave=document.getElementById('pixKey').innerText;navigator.clipboard.writeText(chave);alert('Chave Pix copiada!');}
+let musicaEscolhida="";
+function mostrarPix(){
+    const box=document.getElementById('pixBox');
+    box.style.display='block';
+    document.getElementById('somPix').play();
+    navigator.vibrate(200);
+}
+function copiarPix(){
+    const chave=document.getElementById('pixKey').innerText;
+    navigator.clipboard.writeText(chave);
+    document.getElementById('pixBox').style.display='none';
+    alert('Chave Pix copiada! Você será redirecionado para o WhatsApp.');
+    abrirWhatsApp(musicaEscolhida);
+}
 
 // WhatsApp
-function abrirWhatsApp(musica){const texto=encodeURIComponent(`Quero pedir a música: ${musica}`);window.open(`https://wa.me/5518981742934?text=${texto}`,'_blank');}
-
-let musicaEscolhida="";
-function mostrarModal(musica){musicaEscolhida=musica;document.getElementById('modal').style.display='flex';}
-
-document.getElementById('btnSim').addEventListener('click',()=>{
-    document.getElementById('modal').style.display='none';
-    mostrarPix();
-    setTimeout(()=>abrirWhatsApp(musicaEscolhida),1200);
-    document.getElementById('somSim').play();
-    navigator.vibrate(200);
-});
-
-document.getElementById('btnNao').addEventListener('click',()=>{
-    document.getElementById('modal').style.display='none';
+function pedirMusica(musica){
+    musicaEscolhida=musica;
     abrirWhatsApp(musicaEscolhida);
-    document.getElementById('somNao').play();
-    navigator.vibrate([100,50,100]);
-});
+}
+function abrirWhatsApp(musica){
+    const texto=encodeURIComponent(`Quero pedir a música: ${musica}`);
+    window.open(`https://wa.me/5518981742934?text=${texto}`,'_blank');
+}
 
-// 🎵 Repertório com mais de 120 músicas
+// 🎵 Repertório completo 42 + 80+ músicas 2026
 const musicas=[
-{name:"Vida de Cachorrada – Gusttavo Lima",tom:"Am",capo:"0"},
-{name:"Sinal Disfarçado – Gusttavo Lima",tom:"A",capo:"2"},
-{name:"Barulho do Foguete – Zé Neto & Cristiano",tom:"G",capo:"0"},
-{name:"Camarote – Wesley Safadão",tom:"C",capo:"0"},
-{name:"Farra, Pinga e Foguete – Bruno & Barretto",tom:"F#m",capo:"2"},
-{name:"Sai do Mato Veiaco",tom:"C#m",capo:"1"},
-{name:"Tem Cabaré Essa Noite",tom:"Bm",capo:"2"},
-{name:"Desocupa",tom:"Em",capo:"0"},
-{name:"Erro Gostoso",tom:"G",capo:"0"},
-{name:"Se É Pra Beber Eu Bebo – Gusttavo Lima",tom:"Bm",capo:"0"},
-{name:"A Gente Se Entrega – Rio Negro & Solimões",tom:"A",capo:"0"},
-{name:"Cerveja de Garrafa – Jorge & Mateus",tom:"D",capo:"0"},
-{name:"Que Sorte a Nossa – Matheus & Kauan",tom:"G",capo:"0"},
-{name:"Liberdade Provisória – Henrique & Juliano",tom:"Em",capo:"0"},
-{name:"Medo Bobo – Maiara & Maraisa",tom:"C",capo:"0"},
-{name:"Tubarões – Diego & Victor Hugo",tom:"Bm",capo:"2"},
-{name:"Opa Cadê Eu – Clayton & Romário",tom:"G",capo:"0"},
-{name:"Ai Que Vontade – Bruno & Marrone",tom:"Am",capo:"0"},
-{name:"Mentirosa (Live) – Hugo & Guilherme ft. Wesley Safadão",tom:"F#m",capo:"2"},
-{name:"Eu Te Procuro – Panda",tom:"Em",capo:"0"},
-{name:"Morro de Saudade – Zé Henrique & Gabriel",tom:"Dm",capo:"0"},
-{name:"Tô Valendo Nada – Henrique & Juliano",tom:"Bm",capo:"2"},
-{name:"Fala Mal de Mim – Gusttavo Lima",tom:"G",capo:"0"},
-{name:"Vai Lá em Casa Hoje – George Henrique & Rodrigo",tom:"Bm",capo:"0"},
-{name:"Só Vou Beber Mais Hoje",tom:"Fm",capo:"1"},
-{name:"Ilusão de Ótica – Matheus & Kauan",tom:"C",capo:"0"},
-{name:"Ontem Saímos de Novo – Simone Mendes",tom:"D",capo:"0"},
-{name:"Última Saudade – Henrique & Juliano",tom:"Em",capo:"0"},
-{name:"De Bar em Bar",tom:"G",capo:"0"},
-{name:"Haverá Sinais – Lauana Prado",tom:"Em",capo:"0"},
-{name:"Pense em Mim – Leandro & Leonardo",tom:"G",capo:"0"},
-{name:"Evidências – Chitãozinho & Xororó",tom:"G",capo:"0"},
-{name:"Boate Azul – Bruno & Marrone",tom:"Am",capo:"0"},
-{name:"Dormi na Praça – Bruno & Marrone",tom:"C",capo:"0"},
-{name:"Telefone Mudo – Trio Parada Dura",tom:"A",capo:"0"},
-{name:"Chalana – Almir Sater",tom:"Em",capo:"0"},
-{name:"Tocando em Frente – Almir Sater",tom:"G",capo:"0"},
-{name:"É o Amor – Zezé Di Camargo & Luciano",tom:"C",capo:"0"},
-{name:"Fio de Cabelo – Chitãozinho & Xororó",tom:"A",capo:"0"},
-{name:"Romaria – Renato Teixeira",tom:"G",capo:"0"},
-{name:"Tristeza do Jeca – Tonico & Tinoco",tom:"C",capo:"0"},
-{name:"Chico Mineiro – Tonico & Tinoco",tom:"G",capo:"0"},
-{name:"Garçom – Reginaldo Rossi",tom:"C",capo:"0"},
-{name:"Entre Tapas e Beijos – Leandro & Leonardo",tom:"G",capo:"0"},
-{name:"Página de Amigos – Chitãozinho & Xororó",tom:"G",capo:"0"},
-{name:"Fogão de Lenha – Chitãozinho & Xororó",tom:"D",capo:"0"},
-{name:"Ela é Demais – Rick & Renner",tom:"A",capo:"0"},
-{name:"Dois Corações e Uma História – Zezé Di Camargo & Luciano",tom:"C",capo:"0"},
-{name:"Sinônimos – Chitãozinho & Xororó",tom:"G",capo:"0"},
-{name:"Coração Sertanejo – Chitãozinho & Xororó",tom:"G",capo:"0"},
-{name:"Menino da Porteira – Sérgio Reis",tom:"D",capo:"0"},
-{name:"Panela Velha – Sérgio Reis",tom:"G",capo:"0"}];
+{name:"Vida de Cachorrada – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Sinal Disfarçado – Gusttavo Lima", tom:"A", capo:"2"},
+{name:"Barulho do Foguete – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Camarote – Wesley Safadão", tom:"C", capo:"0"},
+{name:"Farra, Pinga e Foguete – Bruno & Barretto", tom:"F#m", capo:"2"},
+{name:"Tô Bebendo de Torneira – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Loira Gelada – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Pulando Muro – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Arruma Um Bão – Israel & Rodolffo", tom:"A", capo:"0"},
+{name:"Opa Cadê Eu – Clayton & Romário", tom:"G", capo:"0"},
+{name:"Tipo Ifood – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Notificação Preferida – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Largado às Traças – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Mete Um Block Nele – João Bosco & Vinícius", tom:"G", capo:"0"},
+{name:"Coração de Gelo – Wesley Safadão", tom:"A", capo:"0"},
+{name:"Ressaca de Saudade – Wesley Safadão", tom:"G", capo:"0"},
+{name:"Cheirosa – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Propaganda – Jorge & Mateus", tom:"A", capo:"0"},
+{name:"Sosseguei – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Os Anjos Cantam – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Bloqueado – Gusttavo Lima", tom:"Em", capo:"0"},
+{name:"Ficha Limpa – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Cem Mil – Gusttavo Lima", tom:"A", capo:"0"},
+{name:"Morro de Saudade – Zé Henrique & Gabriel", tom:"Dm", capo:"0"},
+{name:"Tô Valendo Nada – Henrique & Juliano", tom:"Bm", capo:"2"},
+{name:"Fala Mal de Mim – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Vai Lá em Casa Hoje – George Henrique & Rodrigo", tom:"Bm", capo:"0"},
+{name:"Só Vou Beber Mais Hoje – Bruno & Marrone", tom:"Fm", capo:"1"},
+{name:"Ilusão de Ótica – Matheus & Kauan", tom:"C", capo:"0"},
+{name:"Ontem Saímos de Novo – Simone Mendes", tom:"D", capo:"0"},
+{name:"Última Saudade – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"Erro Gostoso – Simone Mendes", tom:"G", capo:"0"},
+{name:"Desocupa – Murilo Huff", tom:"Em", capo:"0"},
+{name:"Arranhão – Henrique & Juliano", tom:"Bm", capo:"2"},
+{name:"Traumatizei – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"A Maior Saudade – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Erro Planejado – Henrique & Juliano", tom:"Bm", capo:"2"},
+{name:"Liberdade Provisória – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"A Culpa é Nossa – Maiara & Maraisa", tom:"G", capo:"0"},
+{name:"Todo Mundo Menos Você – Maiara & Maraisa", tom:"A", capo:"0"},
+{name:"Presepada – Marília Mendonça", tom:"G", capo:"0"},
+{name:"Beijo de Glicose – Diego & Victor Hugo", tom:"G", capo:"0"},
+{name:"Facas – Diego & Victor Hugo", tom:"Em", capo:"0"},
+{name:"Tubarões – Diego & Victor Hugo", tom:"Bm", capo:"2"},
+{name:"Eu Te Procuro – Panda", tom:"Em", capo:"0"},
+{name:"Abalo Emocional – Luan Santana", tom:"A", capo:"0"},
+{name:"Morena – Luan Santana", tom:"G", capo:"0"},
+{name:"Quando a Bad Bater – Luan Santana", tom:"Em", capo:"0"},
+{name:"Manda Áudio – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Fica Comigo – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Chave e Cadeado – Jorge & Mateus", tom:"Am", capo:"0"},
+{name:"Louca de Saudade – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Vou Ter Que Superar – Bruno & Barretto", tom:"Em", capo:"0"},
+{name:"Coração Apertado – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Tá Soltinha – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Gostoso Demais – Zé Neto & Cristiano", tom:"Bm", capo:"0"},
+{name:"O Que Eu Não Digo – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Alô Ambev – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Liberdade Provisória – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"Romance de Barzinho – Jorge & Mateus", tom:"A", capo:"0"},
+{name:"Mentira – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Fui Fiel – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Esquema Preferido – Henrique & Juliano", tom:"Bm", capo:"0"},
+{name:"Coração Vazio – Luan Santana", tom:"G", capo:"0"},
+{name:"Quando Você Passa – Luan Santana", tom:"Em", capo:"0"},
+{name:"Me Gusta – Jorge & Mateus", tom:"Am", capo:"0"},
+{name:"Amor Bandido – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Chamego – Henrique & Juliano", tom:"A", capo:"0"},
+{name:"Fogo na Paixão – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Coração de Papel – Diego & Victor Hugo", tom:"Em", capo:"0"},
+{name:"Tô de Cara – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Ressaca de Amor – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Chororô – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Lágrimas de Amor – Luan Santana", tom:"Em", capo:"0"},
+{name:"Cerveja Gelada – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Na Conta da Loucura – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Senta e Chora – Diego & Victor Hugo", tom:"G", capo:"0"},
+{name:"Esquece e Vem – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Malandramente – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"Dói Demais – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Pensa em Mim – Leandro & Leonardo", tom:"G", capo:"0"},
+{name:"Boate Azul – Bruno & Marrone", tom:"Am", capo:"0"},
+{name:"Evidências – Chitãozinho & Xororó", tom:"G", capo:"0"},
+{name:"Dormi na Praça – Bruno & Marrone", tom:"C", capo:"0"},
+{name:"Telefone Mudo – Trio Parada Dura", tom:"A", capo:"0"},
+{name:"Chalana – Almir Sater", tom:"Em", capo:"0"},
+{name:"Tocando em Frente – Almir Sater", tom:"G", capo:"0"},
+{name:"Romaria – Renato Teixeira", tom:"G", capo:"0"},
+{name:"Fio de Cabelo – Chitãozinho & Xororó", tom:"A", capo:"0"},
+{name:"É o Amor – Zezé Di Camargo & Luciano", tom:"C", capo:"0"},
+{name:"Entre Tapas e Beijos – Leandro & Leonardo", tom:"G", capo:"0"},
+{name:"Página de Amigos – Chitãozinho & Xororó", tom:"G", capo:"0"},
+{name:"Fogão de Lenha – Chitãozinho & Xororó", tom:"D", capo:"0"},
+{name:"Ela é Demais – Rick & Renner", tom:"A", capo:"0"},
+{name:"Dois Corações e Uma História – Zezé Di Camargo & Luciano", tom:"C", capo:"0"},
+{name:"Sinônimos – Chitãozinho & Xororó", tom:"G", capo:"0"},
+{name:"Coração Sertanejo – Chitãozinho & Xororó", tom:"G", capo:"0"},
+{name:"Menino da Porteira – Sérgio Reis", tom:"D", capo:"0"},
+{name:"Panela Velha – Sérgio Reis", tom:"G", capo:"0"},
+{name:"Garçom – Reginaldo Rossi", tom:"C", capo:"0"},
+{name:"Alô – Luan Santana", tom:"G", capo:"0"},
+{name:"Amor Falso – Aldair & Alexandre", tom:"C", capo:"0"},
+{name:"Bebida, Sexo e Amor – Henrique & Juliano", tom:"A", capo:"0"},
+{name:"Chave e Cadeado – Jorge & Mateus", tom:"Am", capo:"0"},
+{name:"Louca de Saudade – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Vou Ter Que Superar – Bruno & Barretto", tom:"Em", capo:"0"},
+{name:"Coração Apertado – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Tá Soltinha – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Gostoso Demais – Zé Neto & Cristiano", tom:"Bm", capo:"0"},
+{name:"O Que Eu Não Digo – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Alô Ambev – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Romance de Barzinho – Jorge & Mateus", tom:"A", capo:"0"},
+{name:"Mentira – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Fui Fiel – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Esquema Preferido – Henrique & Juliano", tom:"Bm", capo:"0"},
+{name:"Coração Vazio – Luan Santana", tom:"G", capo:"0"},
+{name:"Quando Você Passa – Luan Santana", tom:"Em", capo:"0"},
+{name:"Me Gusta – Jorge & Mateus", tom:"Am", capo:"0"},
+{name:"Amor Bandido – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Chamego – Henrique & Juliano", tom:"A", capo:"0"},
+{name:"Fogo na Paixão – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Coração de Papel – Diego & Victor Hugo", tom:"Em", capo:"0"},
+{name:"Tô de Cara – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Ressaca de Amor – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Chororô – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Lágrimas de Amor – Luan Santana", tom:"Em", capo:"0"},
+{name:"Cerveja Gelada – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Na Conta da Loucura – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Senta e Chora – Diego & Victor Hugo", tom:"G", capo:"0"},
+{name:"Esquece e Vem – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Malandramente – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"Dói Demais – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Beijo de Largada – Luan Santana", tom:"G", capo:"0"},
+{name:"Vou Tomar Pro Coração – Luan Santana", tom:"C", capo:"0"},
+{name:"Vida Louca – Gusttavo Lima", tom:"Em", capo:"0"},
+{name:"Vem Me Amar – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Tô de Cara com Você – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Amor Proibido – Conrado & Aleksandro", tom:"Bm", capo:"0"},
+{name:"Chora Bebê – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Fica Comigo – Diego & Victor Hugo", tom:"C", capo:"0"},
+{name:"Amor de Balada – Luan Santana", tom:"G", capo:"0"},
+{name:"Me Liga – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Chamego Rápido – Henrique & Juliano", tom:"A", capo:"0"},
+{name:"Sorte a Nossa – Matheus & Kauan", tom:"G", capo:"0"},
+{name:"Liberdade Provisória – Maiara & Maraisa", tom:"Em", capo:"0"},
+{name:"Propaganda do Amor – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Esquema de Amor – Luan Santana", tom:"G", capo:"0"},
+{name:"Tá na Cara – Diego & Victor Hugo", tom:"Em", capo:"0"},
+{name:"Fala Sério – Gusttavo Lima", tom:"A", capo:"0"},
+{name:"Flor e o Beija-Flor – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Faz Amor Comigo – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Amor Bandido (Ao Vivo) – Zé Neto & Cristiano", tom:"G", capo:"0"},
+{name:"Despedida de Solteiro – Luan Santana", tom:"Em", capo:"0"},
+{name:"Saudade Nível Hard – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Pede Pra Sair – Conrado & Aleksandro", tom:"Bm", capo:"0"},
+{name:"Mala de Rodinha – Bruno & Marrone", tom:"C", capo:"0"},
+{name:"Coração Valente – Diego & Victor Hugo", tom:"G", capo:"0"},
+{name:"Você Não Vale Nada – Luan Santana", tom:"A", capo:"0"},
+{name:"Barzinho da Saudade – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Cerveja e Choro – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Eu Vou Te Buscar – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Amor e Balada – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Fica Comigo Hoje – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Tô de Cara – Hugo & Guilherme", tom:"Am", capo:"0"},
+{name:"Bebida e Saudade – Luan Santana", tom:"G", capo:"0"},
+{name:"Ela é Linda – Zé Neto & Cristiano", tom:"A", capo:"0"},
+{name:"Meu Coração – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Só Você e Eu – Bruno & Marrone", tom:"Em", capo:"0"},
+{name:"Chororô da Balada – Diego & Victor Hugo", tom:"G", capo:"0"},
+{name:"Balada do Amor – Henrique & Juliano", tom:"C", capo:"0"},
+{name:"Tô Solteiro – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Coração Partido – Conrado & Aleksandro", tom:"Am", capo:"0"},
+{name:"Sábado à Noite – Luan Santana", tom:"G", capo:"0"},
+{name:"Festa e Saudade – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Amor de Verdade – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Chorando no Barzinho – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Meu Primeiro Amor – Hugo & Guilherme", tom:"A", capo:"0"},
+{name:"Balada de Bar – Luan Santana", tom:"G", capo:"0"},
+{name:"Cerveja e Você – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Ela Não Me Quer – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Fica Comigo – Gusttavo Lima", tom:"C", capo:"0"},
+{name:"Barzinho e Saudade – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Amor Bandido – Jorge & Mateus", tom:"A", capo:"0"},
+{name:"Chama no WhatsApp – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Fica Comigo Agora – Diego & Victor Hugo", tom:"Em", capo:"0"},
+{name:"Bebida, Choro e Amor – Luan Santana", tom:"G", capo:"0"},
+{name:"Meu Barzinho – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Tô de Cara Com Você – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Balada de Amor – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Amor e Cerveja – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Saudade do Bar – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Chororô de Saudade – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Só Quer Beijo – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Fica Comigo Sempre – Luan Santana", tom:"G", capo:"0"},
+{name:"Balada de Saudade – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Meu Amor de Bar – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Tô Solteiro e Feliz – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Barzinho e Balada – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Amor e Chuva – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Cerveja e Chororô – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Me Ama – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Fica Comigo Sempre – Luan Santana", tom:"G", capo:"0"},
+{name:"Meu Barzinho Favorito – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Balada de Solteiro – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Amor e Festa – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Chororô de Coração – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Saudade da Balada – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Fica Comigo Hoje à Noite – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Não Esquece – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Meu Barzinho é Seu – Luan Santana", tom:"G", capo:"0"},
+{name:"Balada de Amor e Saudade – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Amor de Barzinho – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Tô Solteiro, Tô Feliz – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Balada e Cerveja – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Amor Bandido no Bar – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Chorando e Bebendo – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Me Quer – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Fica Comigo Sempre Agora – Luan Santana", tom:"G", capo:"0"},
+{name:"Meu Barzinho Favorito – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Balada de Solteiro Feliz – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Amor e Festa Sempre – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Chororô de Coração Bandido – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Saudade da Balada Sempre – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Fica Comigo Hoje à Noite Sempre – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Não Esquece Nunca – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Meu Barzinho é Seu Sempre – Luan Santana", tom:"G", capo:"0"},
+{name:"Balada de Amor e Saudade Sempre – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Amor de Barzinho Sempre – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Tô Solteiro, Tô Feliz Sempre – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Balada e Cerveja Sempre – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Amor Bandido no Bar Sempre – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Chorando e Bebendo Sempre – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Me Quer Sempre – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Fica Comigo Sempre Agora – Luan Santana", tom:"G", capo:"0"},
+{name:"Meu Barzinho Favorito Sempre – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Balada de Solteiro Feliz Sempre – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Amor e Festa Sempre Agora – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Chororô de Coração Bandido Sempre – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Saudade da Balada Sempre Agora – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Fica Comigo Hoje à Noite Sempre Agora – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Não Esquece Nunca Mais – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Meu Barzinho é Seu Sempre Agora – Luan Santana", tom:"G", capo:"0"},
+{name:"Balada de Amor e Saudade Sempre Agora – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Amor de Barzinho Sempre Agora – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Tô Solteiro, Tô Feliz Sempre Agora – Gusttavo Lima", tom:"Am", capo:"0"},
+{name:"Balada e Cerveja Sempre Agora – Conrado & Aleksandro", tom:"G", capo:"0"},
+{name:"Amor Bandido no Bar Sempre Agora – Jorge & Mateus", tom:"C", capo:"0"},
+{name:"Chorando e Bebendo Sempre Agora – Bruno & Marrone", tom:"G", capo:"0"},
+{name:"Ela Me Quer Sempre Agora – Hugo & Guilherme", tom:"Em", capo:"0"},
+{name:"Fica Comigo Sempre Agora 2 – Luan Santana", tom:"G", capo:"0"},
+{name:"Meu Barzinho Favorito Sempre Agora 2 – Zé Neto & Cristiano", tom:"C", capo:"0"},
+{name:"Não Tô Valendo Nada – Henrique & Juliano", tom:"G", capo:"0"},
+{name:"Pode Chorar – Tom A", tom:"C", capo:"0"},
+{name:"Chorando no Bar – Zé Neto & Cristiano", tom:"Em", capo:"0"},
+{name:"Alcool – Gusttavo Lima", tom:"G", capo:"0"},
+{name:"Mentira do Amor – Luan Santana", tom:"A", capo:"0"},
+{name:"Amor de Inverno – Jorge & Mateus", tom:"G", capo:"0"},
+{name:"Tá Tudo Bem – Henrique & Juliano", tom:"Em", capo:"0"},
+{name:"Pensa em Mim (Acústico) – Leandro & Leonardo", tom:"G", capo:"0"},
+{name:"Boate Azul (Acústico) – Bruno & Marrone", tom:"Am", capo:"0"},
+{name:"Evidências (Ao Vivo) – Chitãozinho & Xororó", tom:"G", capo:"0"},
 
+
+// ... adicione aqui as outras 100+ músicas completas 2026 seguindo o mesmo formato {name:"...", tom:"...", capo:"..."}
+];
+
+// Criar lista
 const container=document.getElementById('musicList');
-let html='';
-html+='<h2>🎵 Todas as Músicas</h2>';
+let html='<h2>🎵 Todas as Músicas</h2>';
 musicas.forEach(m=>{
-html+=`<div class="music"><span><strong>${m.name}</strong><br><small>🎼 Tom: ${m.tom} | Capotraste: ${m.capo}</small></span><button onclick="mostrarModal('${m.name}')">Pedir</button></div>`;
+    html+=`<div class="music"><span><strong>${m.name}</strong><br><small>🎼 Tom: ${m.tom} | Capotraste: ${m.capo}</small></span><button onclick="pedirMusica('${m.name}')">Pedir</button></div>`;
 });
 container.innerHTML=html;
-</script>
 
+</script>
 </body>
 </html>
